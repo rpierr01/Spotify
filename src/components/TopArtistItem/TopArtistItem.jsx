@@ -20,17 +20,17 @@ export default function TopArtistItem({ artist, index }) {
       <div className="artist-details">
         <div className="artist-details-header">
           <div className="artist-title">
-            {index}. {artist.name}
+            <span className="artist-index">{index + 1}.</span> {artist.name}
           </div>
           <div className="artist-genres">
-            Genres: {artist.genres.join(', ')}
+            Genres: {artist.genres?.join(', ') || 'N/A'}
           </div>
         </div>
         <div className="artist-popularity">
           Popularity: {artist.popularity}
         </div>
         <div className="artist-followers">
-          Followers: {artist.followers.total.toLocaleString()}
+          Followers: {artist.followers?.total?.toLocaleString() || 'N/A'}
         </div>
       </div>
       <a
