@@ -44,8 +44,11 @@ export default function PlaylistsPage() {
           if (!handleTokenError(res.error, navigate)) {
             setError(res.error);
           }
+        } else if (res.data && res.data.items) {
+          setPlaylists(res.data.items);
+        } else {
+          setError('No playlists found.');
         }
-        setPlaylists(res.data.items);
       })
       .catch(err => { setError(err.message); })
       .finally(() => { setLoading(false); });
@@ -60,7 +63,11 @@ export default function PlaylistsPage() {
       {!loading && !error && (
         <ol className="playlists-list">
           {playlists.map((playlist) => (
-            <PlayListItem key={playlist.id} playlist={playlist} />
+            <PlayListItem
+              key={playlist.id}
+              playlist={playlist}
+              onClick={() => navigate(`/playlist/${playlist.id}`)} // Ajout de la navigation
+            />
           ))}
         </ol>
       )}
