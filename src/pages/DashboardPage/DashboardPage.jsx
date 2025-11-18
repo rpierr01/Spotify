@@ -20,17 +20,11 @@ function DashboardPage() {
           fetchUserTopTracks(1)
         ]);
 
-        if (artistsData?.items?.length > 0) {
-          setTopArtist(artistsData.items[0]);
-        }
-
-        if (tracksData?.items?.length > 0) {
-          setTopTrack(tracksData.items[0]);
-        }
-
-        setLoading(false);
+        setTopArtist(artistsData?.items?.[0] || null);
+        setTopTrack(tracksData?.items?.[0] || null);
       } catch (err) {
         setError(err.message || 'Une erreur est survenue lors de la récupération des données');
+      } finally {
         setLoading(false);
       }
     };

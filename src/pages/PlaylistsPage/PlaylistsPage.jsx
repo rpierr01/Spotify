@@ -32,9 +32,7 @@ export default function PlaylistsPage() {
   const { token } = useRequireToken();
 
   // Set document title
-  useEffect(() => { 
-    document.title = buildTitle('Playlists');
-  }, []);
+  useEffect(() => { document.title = buildTitle('Playlists'); }, []);
 
 
   useEffect(() => {
@@ -46,18 +44,11 @@ export default function PlaylistsPage() {
           if (!handleTokenError(res.error, navigate)) {
             setError(res.error);
           }
-          return;
         }
-        if (res.data?.items) {
-          setPlaylists(res.data.items);
-        }
+        setPlaylists(res.data.items);
       })
-      .catch(err => { 
-        setError(err.message); 
-      })
-      .finally(() => { 
-        setLoading(false); 
-      });
+      .catch(err => { setError(err.message); })
+      .finally(() => { setLoading(false); });
   }, [token, navigate]);
 
   return (
