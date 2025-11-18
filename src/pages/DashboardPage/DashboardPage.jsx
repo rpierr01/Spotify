@@ -23,6 +23,7 @@ function DashboardPage() {
         setTopArtist(artistsData?.items?.[0] || null);
         setTopTrack(tracksData?.items?.[0] || null);
       } catch (err) {
+        console.error('Error fetching data:', err); // Ajout d'un log pour capturer les erreurs
         setError(err.message || 'Une erreur est survenue lors de la récupération des données');
       } finally {
         setLoading(false);

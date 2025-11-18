@@ -154,4 +154,20 @@ describe('DashboardPage', () => {
       expect(spotifyService.fetchUserTopTracks).toHaveBeenCalledWith(1);
     });
   });
+
+  it('handles null or malformed data gracefully', async () => {
+    spotifyService.fetchUserTopArtists.mockResolvedValue(null);
+    spotifyService.fetchUserTopTracks.mockResolvedValue(null);
+
+    render(
+      <BrowserRouter>
+        <DashboardPage />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Aucun artiste disponible/)).toBeInTheDocument();
+      expect(screen.getByText(/Aucune piste disponible/)).toBeInTheDocument();
+    });
+  });
 });
