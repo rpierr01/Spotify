@@ -82,7 +82,7 @@ const PlaylistDetailPage = () => {
       <div className="playlist-tracks">
         <h2>Titres</h2>
         {playlist.tracks.items && playlist.tracks.items.length > 0 ? (
-          <ul role="list">
+          <ul>
             {playlist.tracks.items.map((item, index) => (
               item.track && (
                 <li key={item.track.id || index} className="track-item">
