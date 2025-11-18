@@ -1,0 +1,147 @@
+.playlist-detail-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary, #b3b3b3);
+}
+
+.error-message {
+  color: var(--error-color, #ff4444);
+}
+
+.playlist-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  align-items: flex-start;
+}
+
+.playlist-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.playlist-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.playlist-info h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.2;
+}
+
+.playlist-info p {
+  font-size: 1rem;
+  color: var(--text-secondary, #b3b3b3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.play-button {
+  background-color: var(--spotify-green, #1db954);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 500px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+.play-button:hover {
+  background-color: var(--spotify-green-hover, #1ed760);
+  transform: scale(1.05);
+}
+
+.play-button:active {
+  transform: scale(0.98);
+}
+
+.playlist-tracks {
+  margin-top: 2rem;
+}
+
+.playlist-tracks h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary, #ffffff);
+}
+
+.playlist-tracks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.track-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  gap: 1rem;
+}
+
+.track-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.track-name {
+  font-size: 1rem;
+  color: var(--text-primary, #ffffff);
+  flex: 1;
+  font-weight: 500;
+}
+
+.track-artist {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #b3b3b3);
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .playlist-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .playlist-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .playlist-info h1 {
+    font-size: 2rem;
+  }
+
+  .play-button {
+    align-self: center;
+  }
+
+  .track-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

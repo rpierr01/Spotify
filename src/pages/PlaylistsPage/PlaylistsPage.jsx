@@ -60,7 +60,11 @@ export default function PlaylistsPage() {
       {!loading && !error && (
         <ol className="playlists-list">
           {playlists.map((playlist) => (
-            <PlayListItem key={playlist.id} playlist={playlist} />
+            <PlayListItem
+              key={playlist.id}
+              playlist={playlist}
+              onClick={() => navigate(`/playlist/${playlist.id}`)} // Ajout de la navigation
+            />
           ))}
         </ol>
       )}

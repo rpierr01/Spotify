@@ -1,14 +1,15 @@
 import './PlayListItem.css';
 import '../ListItem.css';
+import PropTypes from 'prop-types';
 
 /**
  * Playlist item component
  * @param {*}  playlist 
  * @returns JSX.Element
  */
-export default function PlayListItem({ playlist }) {
+export default function PlayListItem({ playlist, onClick }) {
   return (
-  <li key={playlist.id} data-testid={`playlist-item-${playlist.id}`} className="list-item playlist-item">
+  <li key={playlist.id} data-testid={`playlist-item-${playlist.id}`} className="list-item playlist-item" onClick={onClick} role="button" tabIndex={0}>
       <img
         src={playlist.images[0]?.url}
         alt="cover"
@@ -32,3 +33,8 @@ export default function PlayListItem({ playlist }) {
     </li>
   );
 }
+
+PlayListItem.propTypes = {
+  playlist: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
