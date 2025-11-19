@@ -43,28 +43,28 @@ const DashboardPage = () => {
     return null;
   };
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const token = getToken();
-      const [artist, track] = await Promise.all([
-        fetchTopArtist(token),
-        fetchTopTrack(token),
-      ]);
-
-      setTopArtist(artist);
-      setTopTrack(track);
-      setLoading(false);
-    } catch (err) {
-      console.error('Erreur lors de la récupération des données:', err);
-      setError(err.message || ERROR_LOAD_DATA);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const token = getToken();
+        const [artist, track] = await Promise.all([
+          fetchTopArtist(token),
+          fetchTopTrack(token),
+        ]);
+
+        setTopArtist(artist);
+        setTopTrack(track);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des données:', err);
+        setError(err.message || ERROR_LOAD_DATA);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, []);
 
