@@ -88,7 +88,7 @@ const DashboardPage = () => {
               {topArtist.images?.length > 0 && (
                 <img 
                   src={topArtist.images[0].url} 
-                  alt={`Photo de ${topArtist.name}`}
+                  alt={topArtist.name}
                   className="artist-image"
                   loading="lazy"
                 />
@@ -122,7 +122,7 @@ const DashboardPage = () => {
               {topTrack.album?.images?.length > 0 && (
                 <img 
                   src={topTrack.album.images[0].url} 
-                  alt={`Couverture de l'album ${topTrack.album.name}`}
+                  alt={topTrack.album.name}
                   className="track-image"
                   loading="lazy"
                 />
