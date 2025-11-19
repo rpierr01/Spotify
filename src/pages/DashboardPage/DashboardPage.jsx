@@ -14,44 +14,47 @@ const DashboardPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const getToken = () => {
+      const token = localStorage.getItem(KEY_ACCESS_TOKEN);
+      if (!token) {
+        throw new Error(ERROR_NO_TOKEN);
+      }
+      return token;
+    };
+
+    const fetchTopArtist = async (token) => {
+      const response = await fetchUserTopArtists(token, TOP_ITEMS_LIMIT);
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      if (response.data?.items?.length > 0) {
+        setTopArtist(response.data.items[0]);
+      }
+    };
+
+    const fetchTopTrack = async (token) => {
+      const response = await fetchUserTopTracks(token, TOP_ITEMS_LIMIT);
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      if (response.data?.items?.length > 0) {
+        setTopTrack(response.data.items[0]);
+      }
+    };
+
     const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const token = localStorage.getItem(KEY_ACCESS_TOKEN);
-        if (!token) {
-          setError(ERROR_NO_TOKEN);
-          setLoading(false);
-          return;
-        }
-
-        // Récupérer l'artiste le plus écouté
-        const artistsResponse = await fetchUserTopArtists(token, TOP_ITEMS_LIMIT);
-        if (artistsResponse.error) {
-          setError(artistsResponse.error);
-          setLoading(false);
-          return;
-        }
-        if (artistsResponse.data?.items?.length > 0) {
-          setTopArtist(artistsResponse.data.items[0]);
-        }
-
-        // Récupérer la piste la plus écoutée
-        const tracksResponse = await fetchUserTopTracks(token, TOP_ITEMS_LIMIT);
-        if (tracksResponse.error) {
-          setError(tracksResponse.error);
-          setLoading(false);
-          return;
-        }
-        if (tracksResponse.data?.items?.length > 0) {
-          setTopTrack(tracksResponse.data.items[0]);
-        }
+        const token = getToken();
+        await fetchTopArtist(token);
+        await fetchTopTrack(token);
 
         setLoading(false);
       } catch (err) {
         console.error('Erreur lors de la récupération des données:', err);
-        setError(ERROR_LOAD_DATA);
+        setError(err.message || ERROR_LOAD_DATA);
         setLoading(false);
       }
     };
