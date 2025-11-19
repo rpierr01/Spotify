@@ -23,6 +23,15 @@ const profileData = {
 // Mock token value
 const tokenValue = 'test-token';
 
+// Mock navigate function
+const mockNavigate = jest.fn();
+
+// Mock react-router-dom
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate,
+}));
+
 // Tests for AccountPage
 describe('AccountPage', () => {
     // Setup mocks before each test
@@ -32,6 +41,9 @@ describe('AccountPage', () => {
 
         // Default mock: successful profile fetch
         jest.spyOn(spotifyApi, 'fetchAccountProfile').mockResolvedValue({ data: profileData, error: null });
+
+        jest.clearAllMocks();
+        mockNavigate.mockClear();
     });
 
     // Restore mocks after each test
@@ -142,7 +154,7 @@ describe('AccountPage', () => {
         await waitForLoadingToFinish();
 
         // Verify redirection to login page
-        expect(screen.getByText('Login Page')).toBeInTheDocument();
+        expect(mockNavigate).toHaveBeenCalledWith('/login?next=http%3A%2F%2Flocalhost%2F', { replace: true });
     });
 
     test('verify styling and accessibility attributes using role', async () => {

@@ -1,0 +1,108 @@
+.dashboard-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-page h1 {
+  margin-bottom: 2rem;
+  color: #1db954;
+}
+
+.loading, .error, .no-data {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.no-data {
+  color: #b3b3b3;
+  font-style: italic;
+}
+
+.dashboard-content {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.dashboard-card {
+  background: #282828;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h2 {
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.artist-info, .track-info {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.artist-image, .track-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.artist-details, .track-details {
+  flex: 1;
+}
+
+.artist-details h3, .track-details h3 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.genres, .artists {
+  margin-top: 1rem;
+  color: #b3b3b3;
+}
+
+.genres strong, .artists strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genre-tag {
+  background: #1db954;
+  color: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.artist-list {
+  color: #b3b3b3;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .artist-info, .track-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

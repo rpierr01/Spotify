@@ -1,4 +1,3 @@
-
 import { Link, Outlet } from 'react-router-dom';
 import { version } from '../../../package.json';
 import MainNav from '../MainNav/MainNav';
