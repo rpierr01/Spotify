@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchUserTopArtists, fetchUserTopTracks } from '../../api/spotify-me';
 import { KEY_ACCESS_TOKEN } from '../../constants/storageKeys';
 import './DashboardPage.css';
