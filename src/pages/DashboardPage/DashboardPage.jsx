@@ -13,52 +13,58 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const getToken = () => {
+    const token = localStorage.getItem(KEY_ACCESS_TOKEN);
+    if (!token) {
+      throw new Error(ERROR_NO_TOKEN);
+    }
+    return token;
+  };
+
+  const fetchTopArtist = async (token) => {
+    const response = await fetchUserTopArtists(token, TOP_ITEMS_LIMIT);
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    if (response.data?.items?.length > 0) {
+      return response.data.items[0];
+    }
+    return null;
+  };
+
+  const fetchTopTrack = async (token) => {
+    const response = await fetchUserTopTracks(token, TOP_ITEMS_LIMIT);
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    if (response.data?.items?.length > 0) {
+      return response.data.items[0];
+    }
+    return null;
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const token = getToken();
+      const [artist, track] = await Promise.all([
+        fetchTopArtist(token),
+        fetchTopTrack(token),
+      ]);
+
+      setTopArtist(artist);
+      setTopTrack(track);
+      setLoading(false);
+    } catch (err) {
+      console.error('Erreur lors de la récupération des données:', err);
+      setError(err.message || ERROR_LOAD_DATA);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getToken = () => {
-      const token = localStorage.getItem(KEY_ACCESS_TOKEN);
-      if (!token) {
-        throw new Error(ERROR_NO_TOKEN);
-      }
-      return token;
-    };
-
-    const fetchTopArtist = async (token) => {
-      const response = await fetchUserTopArtists(token, TOP_ITEMS_LIMIT);
-      if (response.error) {
-        throw new Error(response.error);
-      }
-      if (response.data?.items?.length > 0) {
-        setTopArtist(response.data.items[0]);
-      }
-    };
-
-    const fetchTopTrack = async (token) => {
-      const response = await fetchUserTopTracks(token, TOP_ITEMS_LIMIT);
-      if (response.error) {
-        throw new Error(response.error);
-      }
-      if (response.data?.items?.length > 0) {
-        setTopTrack(response.data.items[0]);
-      }
-    };
-
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const token = getToken();
-        await fetchTopArtist(token);
-        await fetchTopTrack(token);
-
-        setLoading(false);
-      } catch (err) {
-        console.error('Erreur lors de la récupération des données:', err);
-        setError(err.message || ERROR_LOAD_DATA);
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
