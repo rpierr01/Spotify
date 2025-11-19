@@ -3,6 +3,10 @@ import { fetchUserTopArtists, fetchUserTopTracks } from '../../api/spotify-me';
 import { KEY_ACCESS_TOKEN } from '../../constants/storageKeys';
 import './DashboardPage.css';
 
+const TOP_ITEMS_LIMIT = 1;
+const ERROR_NO_TOKEN = 'Vous devez être connecté pour voir cette page';
+const ERROR_LOAD_DATA = 'Impossible de charger les données Spotify';
+
 const DashboardPage = () => {
   const [topArtist, setTopArtist] = useState(null);
   const [topTrack, setTopTrack] = useState(null);
@@ -17,37 +21,37 @@ const DashboardPage = () => {
 
         const token = localStorage.getItem(KEY_ACCESS_TOKEN);
         if (!token) {
-          setError('Vous devez être connecté pour voir cette page');
+          setError(ERROR_NO_TOKEN);
           setLoading(false);
           return;
         }
 
         // Récupérer l'artiste le plus écouté
-        const artistsResponse = await fetchUserTopArtists(token, 1);
+        const artistsResponse = await fetchUserTopArtists(token, TOP_ITEMS_LIMIT);
         if (artistsResponse.error) {
           setError(artistsResponse.error);
           setLoading(false);
           return;
         }
-        if (artistsResponse.data?.items && artistsResponse.data.items.length > 0) {
+        if (artistsResponse.data?.items?.length > 0) {
           setTopArtist(artistsResponse.data.items[0]);
         }
 
         // Récupérer la piste la plus écoutée
-        const tracksResponse = await fetchUserTopTracks(token, 1);
+        const tracksResponse = await fetchUserTopTracks(token, TOP_ITEMS_LIMIT);
         if (tracksResponse.error) {
           setError(tracksResponse.error);
           setLoading(false);
           return;
         }
-        if (tracksResponse.data?.items && tracksResponse.data.items.length > 0) {
+        if (tracksResponse.data?.items?.length > 0) {
           setTopTrack(tracksResponse.data.items[0]);
         }
 
         setLoading(false);
       } catch (err) {
         console.error('Erreur lors de la récupération des données:', err);
-        setError('Impossible de charger les données Spotify');
+        setError(ERROR_LOAD_DATA);
         setLoading(false);
       }
     };
@@ -81,21 +85,22 @@ const DashboardPage = () => {
           <h2>Artiste le plus écouté</h2>
           {topArtist ? (
             <div className="artist-info">
-              {topArtist.images && topArtist.images.length > 0 && (
+              {topArtist.images?.length > 0 && (
                 <img 
                   src={topArtist.images[0].url} 
-                  alt={topArtist.name}
+                  alt={`Photo de ${topArtist.name}`}
                   className="artist-image"
+                  loading="lazy"
                 />
               )}
               <div className="artist-details">
                 <h3>{topArtist.name}</h3>
-                {topArtist.genres && topArtist.genres.length > 0 && (
+                {topArtist.genres?.length > 0 && (
                   <div className="genres">
                     <strong>Genres:</strong>
                     <div className="genre-list">
                       {topArtist.genres.map((genre, index) => (
-                        <span key={index} className="genre-tag">
+                        <span key={`${genre}-${index}`} className="genre-tag">
                           {genre}
                         </span>
                       ))}
@@ -114,16 +119,17 @@ const DashboardPage = () => {
           <h2>Piste la plus écoutée</h2>
           {topTrack ? (
             <div className="track-info">
-              {topTrack.album?.images && topTrack.album.images.length > 0 && (
+              {topTrack.album?.images?.length > 0 && (
                 <img 
                   src={topTrack.album.images[0].url} 
-                  alt={topTrack.album.name}
+                  alt={`Couverture de l'album ${topTrack.album.name}`}
                   className="track-image"
+                  loading="lazy"
                 />
               )}
               <div className="track-details">
                 <h3>{topTrack.name}</h3>
-                {topTrack.artists && topTrack.artists.length > 0 && (
+                {topTrack.artists?.length > 0 && (
                   <div className="artists">
                     <strong>Artiste(s):</strong>
                     <div className="artist-list">
