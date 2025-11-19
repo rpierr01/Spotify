@@ -85,11 +85,17 @@ const DashboardPage = () => {
   const [error, setError] = useState(null);
 
   const getToken = () => {
-    const token = localStorage.getItem(KEY_ACCESS_TOKEN);
-    if (!token) {
-      throw new Error(ERROR_NO_TOKEN);
+    try {
+      const token = localStorage.getItem(KEY_ACCESS_TOKEN);
+      if (!token) {
+        console.warn('No access token found in localStorage.');
+        return null;
+      }
+      return token;
+    } catch (err) {
+      console.error('Error retrieving access token:', err);
+      return null;
     }
-    return token;
   };
 
   const fetchTopArtist = async (token) => {
@@ -121,6 +127,12 @@ const DashboardPage = () => {
         setError(null);
 
         const token = getToken();
+        if (!token) {
+          setError(ERROR_NO_TOKEN);
+          setLoading(false);
+          return;
+        }
+
         const [artist, track] = await Promise.all([
           fetchTopArtist(token),
           fetchTopTrack(token),
