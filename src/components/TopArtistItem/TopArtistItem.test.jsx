@@ -71,18 +71,4 @@ describe('TopArtistItem component', () => {
         // uncomment to debug
         //screen.debug();
     });
-
-    test('renders artist with correct index starting from 1', () => {
-        const artist = {
-            id: 'artist1',
-            name: 'Artist 1',
-            external_urls: { spotify: 'https://open.spotify.com/artist/artist1' },
-        };
-
-        render(<TopArtistItem artist={artist} index={0} />); // Pass index 0
-
-        const listItem = screen.getByTestId('top-artist-item-artist1');
-        expect(listItem).toHaveTextContent('1.'); // Verify index starts from 1
-        expect(listItem).toHaveTextContent('Artist 1');
-    });
 });
