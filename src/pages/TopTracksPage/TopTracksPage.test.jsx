@@ -118,22 +118,13 @@ describe('TopTracksPage', () => {
 
     test('redirects to login on token expiration', async () => {
         // Mock fetchUserTopTracks to return token expired error
-        jest.spyOn(spotifyApi, 'fetchUserTopTracks').mockResolvedValue({ data: null, error: 'The access token expired' });
+        jest.spyOn(spotifyApi, 'fetchUserTopTracks').mockResolvedValue({ tracks: [], error: 'The access token expired' });
 
         // Render the TopTracksPage
-        render(
-            <MemoryRouter initialEntries={['/top-tracks']}>
-                <Routes>
-                    <Route path="/top-tracks" element={<TopTracksPage />} />
-                    <Route path="/login" element={<div>Login Page</div>} />
-                </Routes>
-            </MemoryRouter>
-        );
+        renderTopTracksPage();
 
         // Wait for loading to finish
-        await waitFor(() => {
-            expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument();
-        });
+        await waitForLoadingToFinish();
 
         // Verify redirection to login page
         expect(screen.getByText('Login Page')).toBeInTheDocument();
